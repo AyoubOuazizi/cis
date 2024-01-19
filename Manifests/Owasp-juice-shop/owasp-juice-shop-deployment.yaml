@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: owasp-juice-shop
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: owasp-juice-shop
+  template:
+    metadata:
+      labels:
+        app: owasp-juice-shop
+    spec:
+      containers:
+      - name: owasp-juice-shop
+        image: bkimminich/juice-shop:latest
+        ports:
+        - containerPort: 3000
+          name: http-juice-shop
+          protocol: TCP
+

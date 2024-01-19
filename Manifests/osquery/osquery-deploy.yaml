@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: osquery-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: osquery
+  template:
+    metadata:
+      labels:
+        app: osquery
+    spec:
+      containers:
+      - name: osquery-container
+        image: osquery/osqueryd
+        volumeMounts:
+        - name: osquery-config
+          mountPath: /etc/osquery/osquery.conf
+          subPath: osquery.conf
+        - name: osquery-results
+          mountPath: /var/osquery/results.log
+      volumes:
+      - name: osquery-config
+        configMap:
+          name: osquery-config
+      - name: osquery-results
+        emptyDir: {}
